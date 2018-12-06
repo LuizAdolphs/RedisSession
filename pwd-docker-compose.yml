@@ -3,7 +3,7 @@ services:
   app_1:
     depends_on:
       - redis
-    image: "adolphsluiz/RedisSessionArticleApp:latest"
+    image: "adolphsluiz/redissessionarticleapp:latest"
     environment: 
       - ASPNETCORE_URLS=http://*:5000
       - ASPNETCORE_ENVIRONMENT=Development
@@ -12,7 +12,7 @@ services:
   app_2:
     depends_on:
       - redis
-    image: "adolphsluiz/RedisSessionArticleApp:latest"
+    image: "adolphsluiz/redissessionarticleapp:latest"
     environment: 
       - ASPNETCORE_URLS=http://*:5050
       - ASPNETCORE_ENVIRONMENT=Development
@@ -30,7 +30,7 @@ services:
   redis:
     image: redis:5.0.1
   nginx:
-    image: "adolphsluiz/RedisSessionArticleNginx:latest"
+    image: "adolphsluiz/redissessionarticlenginx:latest"
     ports:
       - 80:80
     depends_on:

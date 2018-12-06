@@ -5,11 +5,11 @@ matrix:
       sudo: true
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t RedisSessionArticleApp ./app
+      - docker build -t redissessionarticleapp ./app
       - docker images
-      - docker tag RedisSessionArticleApp $DOCKER_USERNAME/RedisSessionArticleApp
-      - docker push $DOCKER_USERNAME/RedisSessionArticleApp
-      - docker build -t RedisSessionArticleNginx ./nginx
+      - docker tag redissessionarticleapp $DOCKER_USERNAME/redissessionarticleapp
+      - docker push $DOCKER_USERNAME/redissessionarticleapp
+      - docker build -t redissessionarticlenginx ./nginx
       - docker images
-      - docker tag RedisSessionArticleNginx $DOCKER_USERNAME/RedisSessionArticleNginx
-      - docker push $DOCKER_USERNAME/RedisSessionArticleNginx
+      - docker tag redissessionarticlenginx $DOCKER_USERNAME/redissessionarticlenginx
+      - docker push $DOCKER_USERNAME/redissessionarticlenginx
