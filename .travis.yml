@@ -1,0 +1,15 @@
+matrix:
+  include:
+    - language: generic
+      dist: trusty
+      sudo: true
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t RedisSessionArticle ./app
+      - docker images
+      - docker tag RedisSessionArticle $DOCKER_USERNAME/RedisSessionArticle
+      - docker push $DOCKER_USERNAME/RedisSessionArticle
+      - docker build -t RedisSessionArticleNginx ./app
+      - docker images
+      - docker tag RedisSessionArticleNginx $DOCKER_USERNAME/RedisSessionArticleNginx
+      - docker push $DOCKER_USERNAME/RedisSessionArticleNginx

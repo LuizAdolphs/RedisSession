@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  app_1:
+    depends_on:
+      - redis
+    image: "adolphsluiz/RedisSessionArticleApp:latest"
+    environment: 
+      - ASPNETCORE_URLS=http://*:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_INSTANCE_NAME=Instance 1
+      - REDIS=redis:6379
+  app_2:
+    depends_on:
+      - redis
+    image: "adolphsluiz/RedisSessionArticleApp:latest"
+    environment: 
+      - ASPNETCORE_URLS=http://*:5050
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_INSTANCE_NAME=Instance 2
+      - REDIS=redis:6379
+  redis_commander:
+    depends_on:
+      - redis
+    image: rediscommander/redis-commander
+    restart: always
+    environment:
+    - REDIS_HOST=redis
+    ports:
+    - "8081:8081"
+  redis:
+    image: redis:5.0.1
+  nginx:
+    image: "adolphsluiz/RedisSessionArticleNginx:latest"
+    ports:
+      - 80:80
+    depends_on:
+      - app_1
+      - app_2
+      - redis 
