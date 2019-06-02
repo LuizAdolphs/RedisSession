@@ -30,11 +30,19 @@ namespace app.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
+        {
+            ViewData["Message"] = "Add a message in the form, ";
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(FormModel model)
         {
             var instance = Environment.GetEnvironmentVariable("ASPNETCORE_INSTANCE_NAME");
 
-            HttpContext.Session.SetString("KeyOfSessionValue", $"Some nice value added in the instance {instance}, maybe an object serialized to JSON?");
+            HttpContext.Session.SetString("KeyOfSessionValue", $"Some nice value added in the instance {instance}: {model.SessionValue}");
 
             await HttpContext.Session.CommitAsync();
 

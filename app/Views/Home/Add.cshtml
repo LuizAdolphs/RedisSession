@@ -1,5 +1,13 @@
-﻿@{
+﻿@model app.Models.FormModel
+
+@{
     ViewData["Title"] = "Add";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
+
+<form asp-action="Add" asp-controller="Home">
+    <label asp-for="SessionValue"></label>
+    <input asp-for="SessionValue" placeholder="Add some value"/>
+    <input type="submit" />
+</form>

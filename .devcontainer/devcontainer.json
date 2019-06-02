@@ -1,0 +1,8 @@
+{
+	"name": "RedisSession",
+	"dockerFile": "Dockerfile",
+	"appPort": 5000,
+	"extensions": [
+		"ms-vscode.csharp"
+	]
+}

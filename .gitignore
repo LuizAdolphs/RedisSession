@@ -1,1 +1,4 @@
 /.vscode
+/app/bin
+/app/obj
+.DS_Store
