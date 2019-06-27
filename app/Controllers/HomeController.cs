@@ -32,7 +32,11 @@ namespace app.Controllers
 
         public IActionResult Add()
         {
-            ViewData["Message"] = "Add a message in the form, ";
+            var instance = Environment.GetEnvironmentVariable("ASPNETCORE_INSTANCE_NAME");
+
+            ViewBag.Message = "Add a message in the form";
+            ViewBag.CurrentValues = new List<string>();
+            ViewBag.Instance = $"{instance}";
 
             return View();
         }
@@ -42,30 +46,22 @@ namespace app.Controllers
         {
             var instance = Environment.GetEnvironmentVariable("ASPNETCORE_INSTANCE_NAME");
 
-            HttpContext.Session.SetString("KeyOfSessionValue", $"Some nice value added in the instance {instance}: {model.SessionValue}");
+            HttpContext.Session.SetString(Guid.NewGuid().ToString(), $"Some nice value added in the instance {instance}: {model.SessionValue}");
 
             await HttpContext.Session.CommitAsync();
 
-            ViewData["Message"] = "If you see this, I guess the data was stored ";
-
-            return View();
-        }
-
-        public async Task<IActionResult> Retrieve()
-        {
-
             await HttpContext.Session.LoadAsync();
 
-            string storedValue = HttpContext.Session.GetString("KeyOfSessionValue");
-            
-            if (String.IsNullOrEmpty(storedValue))
+            var response = new List<string>();
+
+            foreach (var item in HttpContext.Session.Keys)
             {
-                storedValue = "What a shame, no session value for you.";
+                response.Add(HttpContext.Session.GetString(item));
             }
 
-            var instance = Environment.GetEnvironmentVariable("ASPNETCORE_INSTANCE_NAME");
-
-            ViewData["Message"] = $"{storedValue} And you are in instance: {instance}";
+            ViewBag.Message = "Add a message in the form";
+            ViewBag.CurrentValues = response;
+            ViewBag.Instance = $"{instance}";
 
             return View();
         }
