@@ -18,3 +18,5 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 ENTRYPOINT ["dotnet", "app.dll"]
+
+EXPOSE 5000

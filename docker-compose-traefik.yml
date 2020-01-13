@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  app:
+    depends_on:
+      - reverse-proxy
+    build: app/.
+    environment: 
+      - ASPNETCORE_URLS=http://*:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - REDIS=redis:6379
+    labels:
+      - "traefik.http.routers.app.rule=Host(`172.0.0.1`)"
+      - "traefik.app.port=80"
+  redis_commander:
+    depends_on:
+      - redis
+    image: rediscommander/redis-commander
+    restart: always
+    environment:
+    - REDIS_HOST=redis
+    ports:
+    - "8081:8081"
+  redis:
+    image: redis:5.0.1
+  reverse-proxy:
+    image: traefik
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - redis 
